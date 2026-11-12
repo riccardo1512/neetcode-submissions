@@ -1,0 +1,28 @@
+class Solution:
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
+        adj = defaultdict(list)
+        for src, dst in edges:
+            adj[src].append(dst)
+            adj[dst].append(src)
+
+        visited = set()
+
+        def bfs(node):
+
+            queue = deque([node])
+            visited.add(node)
+
+            while queue:
+                node = queue.popleft()
+
+                for nei in adj[node]:
+                    if nei not in visited:
+                        visited.add(nei)
+                        queue.append(nei)
+
+        res = 0
+        for node in range(n):
+            if node not in visited:
+                res += 1
+                bfs(node)
+        return res
